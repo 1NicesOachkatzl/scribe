@@ -2,10 +2,18 @@ import speech_recognition as sr
 from pydub import AudioSegment
 import os
 import streamlit as st
+from pathlib import Path
 
 
-def split_audio(audio_path, chunk_length_ms=60000):
-    audio = AudioSegment.from_wav(audio_path)
+def split_audio(audio_path, filetype=".wav", chunk_length_ms=60000):
+    if filetype == ".wav":
+        audio = AudioSegment.from_wav(audio_path)
+    elif filetype == ".mp3":
+        audio = AudioSegment.from_mp3(audio_path)
+    else:
+        st.error("Invalid file format - this should never happen")
+        return []
+
     chunks = []
     for i in range(0, len(audio), chunk_length_ms):
         chunk = audio[i:i + chunk_length_ms]
@@ -19,10 +27,11 @@ def transcribe(recognizer, uploaded_file):
             # Load the audio file
             audio_file_path = "temp.wav"
             with open(audio_file_path, "wb") as f:
+                filetype = Path(uploaded_file.name).suffix
                 f.write(uploaded_file.getbuffer())
 
             # Split audio into 1-minute chunks
-            chunks = split_audio(audio_file_path)
+            chunks = split_audio(audio_file_path, filetype=filetype)
             num_chunks = len(chunks)
 
             # Progress bar

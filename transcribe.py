@@ -23,7 +23,7 @@ def main():
 
     # Streamlit UI
     st.title("Audio Transcription App")
-    uploaded_file = st.file_uploader("Choose a WAV file", type=["wav"])
+    uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
 
     if st.session_state[transcribeKey]:
         st.session_state[transcriptionKey] = transcribe(recognizer, uploaded_file)
@@ -36,12 +36,15 @@ def main():
             st.info("Please select a file first")
 
     if st.session_state[transcriptionKey] != "":
-        st.write("## Transcription:")
-        st.write(st.session_state[transcriptionKey])
+        st.divider()
 
-        # Add download button
+        st.write("### Transcription")
+
+        with st.container(height=250):
+            st.write(st.session_state[transcriptionKey])
+
         st.download_button(
-            label="Download Transcription",
+            label="Download",
             data=st.session_state[transcriptionKey],
             file_name="transcription.txt",
             mime="text/plain"
