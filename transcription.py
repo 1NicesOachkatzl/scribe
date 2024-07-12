@@ -17,9 +17,9 @@ def transcribe(recognizer, uploaded_file):
     if uploaded_file is not None:
         with st.spinner('Transcribing...'):
             # Load the audio file
-            with open("audio/temp.wav", "wb") as f:
+            audio_file_path = "temp.wav"
+            with open(audio_file_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
-            audio_file_path = "audio/temp.wav"
 
             # Split audio into 1-minute chunks
             chunks = split_audio(audio_file_path)
@@ -50,6 +50,9 @@ def transcribe(recognizer, uploaded_file):
 
                 # Clean up chunk file
                 os.remove(chunk_filename)
+
+            # remove temp audio file
+            os.remove(audio_file_path)
 
             return transcription
 

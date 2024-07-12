@@ -35,9 +35,17 @@ def main():
         else:
             st.info("Please select a file first")
 
-    if st.session_state[transcriptionKey] is not "":
+    if st.session_state[transcriptionKey] != "":
         st.write("## Transcription:")
         st.write(st.session_state[transcriptionKey])
+
+        # Add download button
+        st.download_button(
+            label="Download Transcription",
+            data=st.session_state[transcriptionKey],
+            file_name="transcription.txt",
+            mime="text/plain"
+        )
 
 
 if __name__ == "__main__":
