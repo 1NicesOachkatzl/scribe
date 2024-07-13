@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "scribe"
+version = "0.1.0"
+description = "A tool to transcribe and summarize audio files."
+authors = ["1NicesOachkatzl"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+speechrecognition = "^3.10.4"
+langchain-community = "^0.2.7"
+streamlit = "^1.36.0"
+pydub = "^0.25.1"
+soundfile = "^0.12.1"
+torch = "^2.3.1"
+openai-whisper = {git = "https://github.com/openai/whisper.git"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
