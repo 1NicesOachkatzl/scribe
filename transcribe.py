@@ -9,8 +9,7 @@ def main():
 
     # Streamlit UI
     st.set_page_config(page_title="Scribe", page_icon=":book:")
-
-    st.write(st.session_state[modelKey])
+    st.title("Scribe :book:")
 
     uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
     
@@ -41,7 +40,7 @@ def main():
             st.write(st.session_state[transcriptionKey])
 
         st.download_button(
-            label="Download",
+            label="Download Transcription",
             data=st.session_state[transcriptionKey],
             file_name="transcription.txt",
             mime="text/plain"
@@ -51,8 +50,16 @@ def main():
         st.button("Summarize", on_click=lambda: (st.session_state.update({summarizeKey: True, summaryKey: ""})))
 
     if st.session_state[summaryKey] != "":
+        st.divider()
         with st.container(height=250):
             st.write(st.session_state[summaryKey])
+
+        st.download_button(
+            label="Download Summary",
+            data=st.session_state[summaryKey],
+            file_name="summary.md",
+            mime="text/markdown"
+        )
 
     # Model selection
     installed_models = list_installed_models()
