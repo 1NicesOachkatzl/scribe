@@ -30,6 +30,16 @@ significant plot developments and noteworthy dialogue.>
 
 
 def summarize(transcription, model="llama3"):
+    """
+    Summarizes the contents of the provided transcription using the specified language model.
+
+    Args:
+        transcription (str): The text to be summarized.
+        model (str, optional): The language model to use for summarization. Defaults to "llama3".
+
+    Returns:
+        str: The summarized text formatted in markdown language.
+    """
     print(f"running with model {model}")
     llm = Ollama(model=model, stop=["<|#session"])
     res = llm.invoke(prompt_summarize.format(text=transcription))
@@ -37,6 +47,12 @@ def summarize(transcription, model="llama3"):
 
 
 def list_installed_models():
+    """
+    Lists all installed language models available through 'ollama' command.
+
+    Returns:
+        list: A list of installed language model names.
+    """
     try:
         # Run the 'ollama list' command
         result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)

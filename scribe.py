@@ -4,12 +4,21 @@ from summarizer import summarize, list_installed_models
 
 
 def main():
+    """Main function to set up Streamlit UI for transcription and summarization."""
+
     # Initialize session keys
     init_session_keys()
 
     # Streamlit UI
     st.set_page_config(page_title="Scribe", page_icon=":book:")
     st.title("Scribe :book:")
+
+    # Sidebar for model selection
+    installed_models = list_installed_models()
+    if installed_models:
+        st.sidebar.selectbox("Select a model:", installed_models, key=modelKey)
+    else:
+        st.sidebar.write("No models found or an error occurred.")
 
     uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
     
@@ -49,6 +58,7 @@ def main():
         # Processing area
         st.button("Summarize", on_click=lambda: (st.session_state.update({summarizeKey: True, summaryKey: ""})))
 
+    # Display summary
     if st.session_state[summaryKey] != "":
         st.divider()
         with st.container(height=250):
@@ -60,13 +70,6 @@ def main():
             file_name="summary.md",
             mime="text/markdown"
         )
-
-    # Model selection
-    installed_models = list_installed_models()
-    if installed_models:
-        st.sidebar.selectbox("Select a model:", installed_models, key=modelKey)
-    else:
-        st.sidebar.write("No models found or an error occurred.")
 
 
 if __name__ == "__main__":

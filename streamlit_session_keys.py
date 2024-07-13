@@ -9,6 +9,9 @@ modelKey = 'model'
 
 
 def init_session_keys():
+    """
+    Initialize session state keys if they don't exist.
+    """
     if transcribeKey not in st.session_state:
         st.session_state[transcribeKey] = False
 

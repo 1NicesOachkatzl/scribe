@@ -6,6 +6,17 @@ from pathlib import Path
 
 
 def split_audio(audio_path, filetype=".wav", chunk_length_ms=60000):
+    """
+    Splits an audio file into chunks of specified length.
+
+    Parameters:
+    - audio_path (str): Path to the audio file.
+    - filetype (str, optional): File type of the audio file (default is ".wav").
+    - chunk_length_ms (int, optional): Length of each chunk in milliseconds (default is 60000).
+
+    Returns:
+    - chunks (list): List of AudioSegment objects, each representing a chunk of audio.
+    """
     if filetype == ".wav":
         audio = AudioSegment.from_wav(audio_path)
     elif filetype == ".mp3":
@@ -22,6 +33,15 @@ def split_audio(audio_path, filetype=".wav", chunk_length_ms=60000):
 
 
 def transcribe(uploaded_file):
+    """
+    Transcribes an uploaded audio file using SpeechRecognition.
+
+    Parameters:
+    - uploaded_file (BytesIO or None): The uploaded audio file.
+
+    Returns:
+    - transcription (str): Transcribed text from the audio file.
+    """
     recognizer = sr.Recognizer()
 
     if uploaded_file is not None:
@@ -70,4 +90,3 @@ def transcribe(uploaded_file):
     else:
         st.error("Please upload a WAV file before starting the transcription")
         return ""
-
