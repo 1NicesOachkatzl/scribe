@@ -5,42 +5,16 @@ from streamlit_session_keys import *
 from summarizer import summarize
 
 
-def set_is_transcribing():
-    st.session_state[transcribeKey] = True
-    st.session_state[transcriptionKey] = ""
-    pass
-
-
-def set_is_summarizing():
-    st.session_state[summarizeKey] = True
-    st.session_state[summaryKey] = ""
-    pass
-
-
 def main():
     # Initialize the recognizer
     recognizer = sr.Recognizer()
 
-    # Session keys
-    if transcribeKey not in st.session_state:
-        st.session_state[transcribeKey] = False
-
-    if transcriptionKey not in st.session_state:
-        st.session_state[transcriptionKey] = ""
-
-    if summarizeKey not in st.session_state:
-        st.session_state[summarizeKey] = False
-
-    if summaryKey not in st.session_state:
-        st.session_state[summaryKey] = ""
+    # Initialize session keys
+    init_session_keys()
 
     # Streamlit UI
-    st.set_page_config(
-        page_title="Scribe",
-        page_icon=":book:"
-    )
+    st.set_page_config(page_title="Scribe", page_icon=":book:")
 
-    st.title("Scribe")
     uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
 
     # Transcription logic
@@ -50,7 +24,7 @@ def main():
         st.rerun()
     else:
         if uploaded_file is not None:
-            st.button("Start Transcription", on_click=set_is_transcribing)
+            st.button("Start Transcription", on_click=lambda: (st.session_state.update({transcribeKey: True, transcriptionKey: ""})))
         else:
             st.info("Please select a file first")
 
@@ -77,7 +51,7 @@ def main():
         )
 
         # Processing area
-        st.button("Summarize", on_click=set_is_summarizing)
+        st.button("Summarize", on_click=lambda: (st.session_state.update({summarizeKey: True, summaryKey: ""})))
 
     if st.session_state[summaryKey] != "":
         with st.container(height=250):
