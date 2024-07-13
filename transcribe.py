@@ -1,25 +1,22 @@
-import streamlit as st
-import speech_recognition as sr
 from transcription import transcribe
 from streamlit_session_keys import *
-from summarizer import summarize
+from summarizer import summarize, list_installed_models
 
 
 def main():
-    # Initialize the recognizer
-    recognizer = sr.Recognizer()
-
     # Initialize session keys
     init_session_keys()
 
     # Streamlit UI
     st.set_page_config(page_title="Scribe", page_icon=":book:")
 
-    uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
+    st.write(st.session_state[modelKey])
 
+    uploaded_file = st.file_uploader("Choose a WAV file", type=["wav", "mp3"])
+    
     # Transcription logic
     if st.session_state[transcribeKey]:
-        st.session_state[transcriptionKey] = transcribe(recognizer, uploaded_file)
+        st.session_state[transcriptionKey] = transcribe(uploaded_file)
         st.session_state[transcribeKey] = False
         st.rerun()
     else:
@@ -30,7 +27,7 @@ def main():
 
     # Summarization logic
     if st.session_state[summarizeKey]:
-        st.session_state[summaryKey] = summarize(st.session_state[transcriptionKey])
+        st.session_state[summaryKey] = summarize(transcription=st.session_state[transcriptionKey], model=st.session_state[modelKey])
         st.session_state[summarizeKey] = False
         st.rerun()
         pass
@@ -56,6 +53,13 @@ def main():
     if st.session_state[summaryKey] != "":
         with st.container(height=250):
             st.write(st.session_state[summaryKey])
+
+    # Model selection
+    installed_models = list_installed_models()
+    if installed_models:
+        st.sidebar.selectbox("Select a model:", installed_models, key=modelKey)
+    else:
+        st.sidebar.write("No models found or an error occurred.")
 
 
 if __name__ == "__main__":

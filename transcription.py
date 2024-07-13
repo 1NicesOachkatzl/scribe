@@ -21,7 +21,9 @@ def split_audio(audio_path, filetype=".wav", chunk_length_ms=60000):
     return chunks
 
 
-def transcribe(recognizer, uploaded_file):
+def transcribe(uploaded_file):
+    recognizer = sr.Recognizer()
+
     if uploaded_file is not None:
         with st.spinner('Transcribing...'):
             # Load the audio file

@@ -1,9 +1,11 @@
 import streamlit as st
+from summarizer import list_installed_models
 
 transcribeKey = 'is_transcribing'
 transcriptionKey = 'transcription'
 summaryKey = 'summary'
 summarizeKey = 'is_summarizing'
+modelKey = 'model'
 
 
 def init_session_keys():
@@ -18,3 +20,9 @@ def init_session_keys():
 
     if summaryKey not in st.session_state:
         st.session_state[summaryKey] = ""
+
+    if modelKey not in st.session_state:
+        installed_models = list_installed_models()
+        if len(installed_models) > 0:
+            st.session_state[modelKey] = list_installed_models()[0]
+
