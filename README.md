@@ -60,7 +60,7 @@ To install Poetry, follow these steps (taken from the official installation inst
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/scribe.git
+    git clone https://github.com/1NicesOachkatzl/scribe.git
     cd scribe
     ```
 
