@@ -1,6 +1,7 @@
 # Scribe 📖
 
 Scribe is a Python application that transcribes audio files into text and summarizes them originally developed to streamline the process of converting tabletop sessions into markdown files.
+It automatically detects key events, mentioned NPCs and locations and marks them using square brackets for later a streamlined integration into the [Obsidian](https://obsidian.md) note-taking application.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -9,6 +10,8 @@ Scribe is a Python application that transcribes audio files into text and summar
   - [Install Poetry](#install-poetry)
   - [Project Setup](#project-setup)
 - [Running the Application](#running-the-application)
+
+![User Interface](screenshots/ui.png)
 
 ## Installation
 
@@ -84,4 +87,3 @@ To run the application, follow these steps:
     ```
 
 Visit [http://localhost:8501](http://localhost:8501) in your web browser to use the application.
-
